@@ -17,7 +17,8 @@
     "baseUrl": "./src",
     "paths": {
       "@config/*": ["config/*"],
-      "@controller/*": ["app/controllers/*"]
+      "@controller/*": ["app/controllers/*"],
+      "@models/*": ["app/models/*"]
     },
     "typeRoots": [
       "./node_modules/@types",
