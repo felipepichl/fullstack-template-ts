@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { AppError } from 'app/error/AppError';
 import * as Yup from 'yup';
 
 import { UsersServices } from '../services/UsersServices';
@@ -13,7 +14,7 @@ class UsersController {
     });
 
     if (!(await schema.isValid(request.body))) {
-      return response.status(400).json({ error: 'Validations Failed' });
+      throw new AppError('Validations Failed');
     }
 
     const usersServices = new UsersServices();
