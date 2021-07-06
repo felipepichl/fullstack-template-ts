@@ -1,4 +1,5 @@
 import { Repository, getCustomRepository } from 'typeorm';
+import { hash } from 'bcryptjs';
 
 import { User } from '@entities/User';
 import { UsersRepository } from '../repositories/UsersRepository';
@@ -23,13 +24,17 @@ class UsersServices {
       return userAlreadyExists;
     }
 
+    const passwordHash = await hash(password, 8);
+
     const user = this.usersRepository.create({
       name,
       email,
-      password,
+      password: passwordHash,
     });
 
     await this.usersRepository.save(user);
+
+    delete user.password;
 
     return user;
   }
