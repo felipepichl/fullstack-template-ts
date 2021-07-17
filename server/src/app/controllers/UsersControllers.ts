@@ -4,6 +4,8 @@ import * as Yup from 'yup';
 
 import { UsersServices } from '../services/UsersServices';
 
+import userView from '../views/UserView';
+
 class UsersController {
   public async store(request: Request, response: Response): Promise<Response> {
     const { name, email, password } = request.body;
@@ -25,7 +27,7 @@ class UsersController {
       password,
     });
 
-    return response.json(user);
+    return response.json(userView.render(user));
   }
 }
 

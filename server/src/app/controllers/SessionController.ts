@@ -14,12 +14,12 @@ class SessionController {
     });
 
     if (!(await schema.isValid(request.body))) {
-      throw new AppError('VAlidations Failed');
+      throw new AppError('Validations Failed');
     }
 
     const sessionService = new SessionServices();
 
-    const session = sessionService.execute({
+    const session = await sessionService.execute({
       email,
       password,
     });
