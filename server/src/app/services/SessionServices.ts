@@ -9,15 +9,13 @@ import { UsersRepository } from '../repositories/UsersRepository';
 
 import { AppError } from '../error/AppError';
 
-import userView, { IUser } from '../views/UserView';
-
 interface IRequest {
   email: string;
   password: string;
 }
 
 interface IResponse {
-  user: IUser;
+  user: User;
   token: string;
 }
 
@@ -29,13 +27,13 @@ class SessionServices {
   }
 
   public async execute({ email, password }: IRequest): Promise<IResponse> {
-    const user = await this.usersRepository.findOne({ email });
+    const user = await this.usersRepository.findOne(email);
 
     if (!user) {
       throw new AppError('Incorrect Email/Password');
     }
 
-    const passwordMatch = await compare(password, user.password);
+    const passwordMatch = compare(password, user.password);
 
     if (!passwordMatch) {
       throw new AppError('Incorrect Email/Password');
@@ -48,7 +46,9 @@ class SessionServices {
       expiresIn,
     });
 
-    return { user: userView.render(user), token };
+    delete user.password;
+
+    return { user, token };
   }
 }
 
